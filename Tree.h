@@ -10,14 +10,19 @@ class Session;
 
 class Tree{
 public:
-    //rule of 5
     Tree(int rootLabel);
-    Tree(const Tree& likeThis);//copy constructor
+    //rule of 5
+    Tree(const Tree& likeThis);
+    virtual ~Tree();
+    const Tree& operator=(const Tree &other);
+    Tree(Tree&& other);
+    const Tree& operator=(Tree&& other);
     //rule of 5//
     void addChild(const Tree& child);
+    void clear();
     static Tree* createTree(const Session& session, int rootLabel);
     virtual int traceTree()=0;
-    virtual Tree* clone()=0;
+    virtual Tree* clone() const=0;
     vector<Tree*> getChildren() const;
     void addChild(Tree* child);
     int getNode() const;
@@ -34,7 +39,7 @@ public:
     //rule of 5
 
     virtual int traceTree();
-    virtual CycleTree* clone();
+    virtual CycleTree* clone() const;
 private:
     int currCycle;
 };
@@ -42,20 +47,21 @@ private:
 class MaxRankTree: public Tree{
 public:
     //rule of 5
-    MaxRankTree(int rootLabel);//constructor
+    explicit MaxRankTree(int rootLabel);//constructor
     MaxRankTree(const MaxRankTree& likeThis);//copy constructor;
     //rule of 5
 
     virtual int traceTree();
-    virtual MaxRankTree* clone();
+    virtual MaxRankTree* clone() const;
 };
 
 class RootTree: public Tree{
 public:
     //rule of 5
     RootTree(int rootLabel);
+    RootTree(const RootTree& likeThis);
     //rule of 5
-    virtual RootTree* clone();
+    virtual RootTree* clone() const;
     virtual int traceTree();
 };
 

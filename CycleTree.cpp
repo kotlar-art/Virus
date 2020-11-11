@@ -6,7 +6,7 @@
 //constructor
 CycleTree::CycleTree(int rootLabel, int currCycle) : Tree(rootLabel), currCycle(currCycle){};
 
-CycleTree * CycleTree::clone() {
+CycleTree * CycleTree::clone() const {
     CycleTree *ct = new CycleTree(getNode(),currCycle);
     if (getChildren().size()==0) return ct;
     for (unsigned int i = 0; i<getChildren().size(); i++){
@@ -25,9 +25,3 @@ CycleTree::CycleTree(const CycleTree &likeThis): Tree(likeThis) {
         }
     }
 }
-
-//copy assignment operator
-
-//move constructor
-
-//move assignment operator
