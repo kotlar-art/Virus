@@ -1,16 +1,10 @@
 #include "Tree.h"
 
-RootTree * RootTree::clone() {
+RootTree * RootTree::clone() const {
     return new RootTree(this->getNode());
 }
 //constructor
 RootTree::RootTree(int rootLabel) : Tree(rootLabel){}
 
 //copy constructor
-
-
-//copy assignment operator
-
-//move constructor
-
-//move assignment operator
+RootTree::RootTree(const RootTree &likeThis):Tree(likeThis) {}
