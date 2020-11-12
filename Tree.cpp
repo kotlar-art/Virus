@@ -58,16 +58,17 @@ Tree * Tree::BFS(const Session &session, int rootLabel) {
 void Tree::BFS(const Session &session, queue<Tree*>& q, vector<bool>& visited) {
 
     int TreeRoot = q.front()->getNode();
-    for (unsigned int i = 0; i<session.getGraph().getEdges()[TreeRoot].size(); i++){
-        if (session.getGraph().getEdges()[TreeRoot][i] == 1 && visited[i] == false){
-            visited[i]=true;
-            Tree *child = createTree(session, i);
+    for (unsigned int i = 0; i < session.getGraph().getEdges()[TreeRoot].size(); i++) {
+        if (session.getGraph().getEdges()[TreeRoot][(int)i] == 1 && !visited[(int)i]) {
+            visited[(int)i] = true;
+            Tree *child = createTree(session, (int)i);
             addChild(child);
             q.push(child);
         }
     }
     q.pop();
-    q.front()->BFS(session,q,visited);
+    if(!q.empty()) q.front()->BFS(session, q, visited);
+
 }
 
 
@@ -84,12 +85,13 @@ Tree * Tree::createTree(const Session &session, int rootLabel) {
         RootTree *RT = new RootTree(rootLabel);
         return RT;
     }
-    vector<vector<int>> vic = session.getGraph().getEdges();
     if(t==Cycle){
-
+        CycleTree *CT = new CycleTree(rootLabel, session.getTreeType());
+        return CT;
     }
     else{
-
+        MaxRankTree *MRT = new MaxRankTree(rootLabel);
+        return MRT;
     }
 }
 void Tree::addChild(Tree *child) {
