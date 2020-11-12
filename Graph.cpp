@@ -23,6 +23,7 @@ void Graph::infectNode(int nodeInd) {
     return edges;
 }
 
+
 int Graph::getGraphSize() const {
     return edges.size();
 }
