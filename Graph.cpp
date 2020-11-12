@@ -23,6 +23,23 @@ void Graph::infectNode(int nodeInd) {
     return edges;
 }
 
+int Graph::getGraphSize() const {
+    return edges.size();
+}
+
+vector<int> Graph::getNeighbors(int node) {
+    vector<int> neighbors;
+    for (int i = 0; i < edges.size(); ++i) {
+        if(edges[node][i] == 1){
+            neighbors.push_back(i);
+        }
+    }
+    return neighbors;
+}
+
+vector<bool> Graph::getList(){
+    return infected_list;
+}
 
 void Graph::remove_edge(int i, int j) {
     edges[i][j] = 0;

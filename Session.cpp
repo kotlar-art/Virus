@@ -32,11 +32,46 @@ Session::Session(const Session& session):g(session.getGraph()), treeType(session
     }
 }
 
+//destructor
+Session::~Session() {clear();}
+
 //copy assignment operator
+const Session &Session::operator=(const Session &other) {
+    if(this == &other){
+        return *this;
+    }
+    clear();
+    infectedList = other.infectedList;
+    g = other.g;
+    treeType = other.getTreeType();
+    for(auto& elem: other.agents){
+        addAgent(elem->clone());
+    }
+    return *this;
+}
+
 
 //move constructor
 
+Session::Session(Session &&other) {
+    infectedList = other.infectedList;
+    g = other.g;
+    treeType = other.getTreeType();
+    agents = other.agents;
+    other.agents.clear();
+}
+
 //move assignment operator
+const Session &Session::operator=(Session &&other) {
+    clear();
+    infectedList = other.infectedList;
+    g = other.g;
+    treeType = other.getTreeType();
+    agents = other.agents;
+    other.agents.clear();
+    return *this;
+}
+
 
 const Graph& Session::getGraph() const {
     return g;
@@ -50,7 +85,7 @@ void Session::setGraph(const Graph &graph) {
 
 //void Session::simulate() {
 //    int cycle = 0;
-//    while (condition) {
+//    while (!toTerminate()) {
 //
 //        cycle++;
 //    }
@@ -78,6 +113,30 @@ void Session::addAgent(const Agent &agent) {
 int Session::getListSize() const {
     return infectedList.size();
 }
+
+bool Session::toTerminate() {
+    bool toTerminate = true;
+    vector<bool> list = g.getList();
+
+
+
+
+
+    return toTerminate;
+}
+
+void Session::clear() {
+    for(auto& elem: agents){
+        delete elem;
+    }
+    agents.clear();
+}
+
+void Session::addAgent(Agent *agent) {
+    agents.push_back(agent);
+}
+
+
 
 
 
