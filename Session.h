@@ -29,12 +29,15 @@ public:
     int dequeueInfected();
     int getListSize() const;
     TreeType getTreeType() const;
+    void cycleUp();
+    int getCycle() const;
 
 private:
     vector<int> infectedList;
     Graph g;
     TreeType treeType;
     std::vector<Agent*> agents;
+    int currCycle;
 };
 
 #endif

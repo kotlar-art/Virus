@@ -42,7 +42,13 @@ const Graph& Session::getGraph() const {
     return g;
 }
 
+void Session::cycleUp() {
+    currCycle++;
+}
 
+int Session::getCycle() const {
+    return currCycle;
+}
 void Session::setGraph(const Graph &graph) {
     vector<vector<int>> k(graph.getEdges());
     g.set_graph(graph.getEdges());
