@@ -23,6 +23,11 @@ void Graph::infectNode(int nodeInd) {
     return edges;
 }
 
+
+int Graph::getGraphSize() const {
+    return edges.size();
+}
+
 vector<int> Graph::getNeighbors(int node) {
     vector<int> neighbors;
     for (int i = 0; i < edges.size(); ++i) {

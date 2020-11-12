@@ -4,6 +4,7 @@
 #define TREE_H_
 #include "Graph.h"
 #include <vector>
+#include <queue>
 using namespace std;
 
 class Session;
@@ -26,9 +27,11 @@ public:
     vector<Tree*> getChildren() const;
     void addChild(Tree* child);
     int getNode() const;
+    static Tree* BFS(const Session& session, int rootLabel);
 private:
     int node;
     std::vector<Tree*> children;
+    void BFS(const Session& session, queue<Tree*>& q, vector<bool>& visited);
 };
 
 class CycleTree: public Tree{

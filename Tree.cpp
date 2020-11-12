@@ -1,5 +1,4 @@
 
-#include <iostream>
 #include "Session.h"
 #include "Tree.h"
 #include "Graph.h"
@@ -18,7 +17,9 @@ Tree::Tree(const Tree &likeThis): node(likeThis.node), children(0){
     }
 }
 //copy assignment operator
-const Tree &Tree::operator=(const Tree &other) {
+
+const Tree& Tree::operator=(const Tree &other) {
+
     if(this != &other) {
         clear();
         node = other.getNode();
@@ -37,7 +38,9 @@ Tree::Tree(Tree &&other) {
 }
 
 //move assignment operator
-const Tree &Tree::operator=(Tree &&other) {
+
+const Tree& Tree::operator=(Tree &&other) {
+
     clear();
     node = other.getNode();
     children = other.children;
@@ -45,6 +48,33 @@ const Tree &Tree::operator=(Tree &&other) {
     return *this;
 }
 
+
+Tree * Tree::BFS(const Session &session, int rootLabel) {
+    vector<bool> visited(session.getGraph().getGraphSize());
+    queue<Tree*> *q = new queue<Tree*>;
+    visited[rootLabel] = true;
+    Tree *t = createTree(session, rootLabel);
+    q->push(t);
+    q->front()->BFS(session, *q, visited);
+    delete q;
+    return t;
+}
+
+void Tree::BFS(const Session &session, queue<Tree*>& q, vector<bool>& visited) {
+
+    int TreeRoot = q.front()->getNode();
+    for (unsigned int i = 0; i < session.getGraph().getEdges()[TreeRoot].size(); i++) {
+        if (session.getGraph().getEdges()[TreeRoot][(int)i] == 1 && !visited[(int)i]) {
+            visited[(int)i] = true;
+            Tree *child = createTree(session, (int)i);
+            addChild(child);
+            q.push(child);
+        }
+    }
+    q.pop();
+    if(!q.empty()) q.front()->BFS(session, q, visited);
+
+}
 
 void Tree::clear() {
     for (auto & i : children) {
@@ -59,18 +89,20 @@ Tree * Tree::createTree(const Session &session, int rootLabel) {
         RootTree *RT = new RootTree(rootLabel);
         return RT;
     }
-    vector<vector<int>> vic = session.getGraph().getEdges();
     if(t==Cycle){
-
+        CycleTree *CT = new CycleTree(rootLabel, session.getTreeType());
+        return CT;
     }
     else{
-
+        MaxRankTree *MRT = new MaxRankTree(rootLabel);
+        return MRT;
     }
 }
 void Tree::addChild(Tree *child) {
     if(child != nullptr){
         children.push_back(child);
     }
+
 }
 
 void Tree::addChild(const Tree &child) {
