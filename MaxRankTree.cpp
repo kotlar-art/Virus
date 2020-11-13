@@ -22,3 +22,20 @@ MaxRankTree * MaxRankTree::clone() const{
     }
     return ct;
 }
+
+int MaxRankTree::traceTree() {
+   std::pair<int,int> pair = trace();
+    return pair.first;
+}
+
+std::pair<int, int> MaxRankTree::trace() {
+    std::pair<int,int> output(getNode(), getChildren().size());
+    for (int i = 0; i < getChildren().size(); ++i) {
+        std::pair<int,int> toCompare =((MaxRankTree *)(getChildren()[i]))->trace();
+        if(toCompare.second > output.second){
+            output.first = toCompare.first;
+            output.second = toCompare.second;
+        }
+    }
+    return output;
+}
