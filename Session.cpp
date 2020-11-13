@@ -26,7 +26,8 @@ Session::Session(const std::string& path):g(), treeType(Root),infectedList(),age
 }
 
 //copy constructor
-Session::Session(const Session& session):g(session.getGraph()), treeType(session.getTreeType()), infectedList(session.infectedList),agents() {
+Session::Session(const Session& session):g(session.getGraph()), treeType(session.getTreeType()), infectedList(session.infectedList),agents(),
+                                                        cycleCounter(session.cycleCounter), virusSpread(session.virusSpread){
     for (int i = 0; i < session.agents.size(); ++i) {
         agents.push_back(agents[i]->clone());
     }
@@ -59,6 +60,8 @@ Session::Session(Session &&other) {
     treeType = other.getTreeType();
     agents = other.agents;
     other.agents.clear();
+    cycleCounter = other.cycleCounter;
+    virusSpread = other.virusSpread;
 }
 
 //move assignment operator
@@ -77,19 +80,32 @@ const Graph& Session::getGraph() const {
     return g;
 }
 
+int Session::getCycle() const {
+    return cycleCounter;
+}
+
 
 void Session::setGraph(const Graph &graph) {
     vector<vector<int>> k(graph.getEdges());
     g.set_graph(graph.getEdges());
 }
 
-//void Session::simulate() {
-//    int cycle = 0;
-//    while (!toTerminate()) {
-//
-//        cycle++;
-//    }
-//}
+void Session::virusHasSpread() {
+    virusSpread=true;
+}
+
+void Session::simulate() {
+    virusSpread = true;
+    cycleCounter = 0;
+    while(virusSpread){
+        virusSpread = false;
+        int k = agents.size();
+        for (int i = 0; i < k; ++i) {
+            agents[i]->act(*this);
+        }
+        cycleCounter++;
+    }
+}
 
 
 TreeType Session::getTreeType() const {return treeType;}
@@ -114,17 +130,6 @@ int Session::getListSize() const {
     return infectedList.size();
 }
 
-bool Session::toTerminate() {
-    bool toTerminate = true;
-    vector<bool> list = g.getList();
-
-
-
-
-
-    return toTerminate;
-}
-
 void Session::clear() {
     for(auto& elem: agents){
         delete elem;
@@ -136,6 +141,9 @@ void Session::addAgent(Agent *agent) {
     agents.push_back(agent);
 }
 
+bool Session::isInfectedListEmpty() {
+    return infectedList.empty();
+}
 
 
 

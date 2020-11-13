@@ -23,7 +23,6 @@ void Graph::infectNode(int nodeInd) {
     return edges;
 }
 
-
 int Graph::getGraphSize() const {
     return edges.size();
 }
@@ -45,4 +44,10 @@ vector<bool> Graph::getList(){
 void Graph::remove_edge(int i, int j) {
     edges[i][j] = 0;
     edges[j][i] = 0;
+}
+
+void Graph::amputate(int toAmputate) {
+    for (unsigned int i = 0; i<edges[toAmputate].size(); i++){
+        if (edges[toAmputate][i]==1) remove_edge(toAmputate, (int)i);
+    }
 }

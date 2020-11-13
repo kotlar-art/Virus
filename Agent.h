@@ -15,10 +15,8 @@ public:
 class ContactTracer: public Agent{
 public:
     ContactTracer();
-    
     virtual void act(Session& session);
     virtual ContactTracer* clone() const;
-
 };
 
 

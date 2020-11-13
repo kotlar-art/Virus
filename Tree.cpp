@@ -17,9 +17,7 @@ Tree::Tree(const Tree &likeThis): node(likeThis.node), children(0){
     }
 }
 //copy assignment operator
-
 const Tree& Tree::operator=(const Tree &other) {
-
     if(this != &other) {
         clear();
         node = other.getNode();
@@ -38,16 +36,13 @@ Tree::Tree(Tree &&other) {
 }
 
 //move assignment operator
-
 const Tree& Tree::operator=(Tree &&other) {
-
     clear();
     node = other.getNode();
     children = other.children;
     other.children.clear();
     return *this;
 }
-
 
 Tree * Tree::BFS(const Session &session, int rootLabel) {
     vector<bool> visited(session.getGraph().getGraphSize());
@@ -76,6 +71,7 @@ void Tree::BFS(const Session &session, queue<Tree*>& q, vector<bool>& visited) {
 
 }
 
+
 void Tree::clear() {
     for (auto & i : children) {
         delete i;
@@ -90,7 +86,7 @@ Tree * Tree::createTree(const Session &session, int rootLabel) {
         return RT;
     }
     if(t==Cycle){
-        CycleTree *CT = new CycleTree(rootLabel, session.getTreeType());
+        CycleTree *CT = new CycleTree(rootLabel, );
         return CT;
     }
     else{
@@ -102,7 +98,6 @@ void Tree::addChild(Tree *child) {
     if(child != nullptr){
         children.push_back(child);
     }
-
 }
 
 void Tree::addChild(const Tree &child) {
