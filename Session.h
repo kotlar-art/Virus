@@ -35,8 +35,10 @@ public:
     int getListSize() const;
     TreeType getTreeType() const;
     bool toTerminate();
+    int getCycle();
 
 private:
+    int cycle;
     vector<int> infectedList;
     Graph g;
     TreeType treeType;

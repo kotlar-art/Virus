@@ -25,3 +25,16 @@ CycleTree::CycleTree(const CycleTree &likeThis): Tree(likeThis) {
         }
     }
 }
+
+int CycleTree::traceTree() {
+    int i = currCycle;
+    int output = getNode();
+    CycleTree *tree(this);
+    while(i > 0){
+     CycleTree *tree((CycleTree *)(tree->getChildren()[0]));
+     output = tree->getNode();
+     i--;
+    }
+    delete tree;
+    return output;
+}

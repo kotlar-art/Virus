@@ -5,7 +5,7 @@
 using json = nlohmann::json;
 using namespace std;
 //constructor
-Session::Session(const std::string& path):g(), treeType(Root),infectedList(),agents() {
+Session::Session(const std::string& path):g(), treeType(Root),infectedList(),agents(), cycle(0){
     ifstream i("path");
     json j;
     j << i;
@@ -26,7 +26,7 @@ Session::Session(const std::string& path):g(), treeType(Root),infectedList(),age
 }
 
 //copy constructor
-Session::Session(const Session& session):g(session.getGraph()), treeType(session.getTreeType()), infectedList(session.infectedList),agents() {
+Session::Session(const Session& session):g(session.getGraph()), treeType(session.getTreeType()), infectedList(session.infectedList),agents(), cycle(session.cycle) {
     for (int i = 0; i < session.agents.size(); ++i) {
         agents.push_back(agents[i]->clone());
     }
@@ -41,6 +41,7 @@ const Session &Session::operator=(const Session &other) {
         return *this;
     }
     clear();
+    cycle = other.cycle;
     infectedList = other.infectedList;
     g = other.g;
     treeType = other.getTreeType();
@@ -54,6 +55,7 @@ const Session &Session::operator=(const Session &other) {
 //move constructor
 
 Session::Session(Session &&other) {
+    cycle = other.cycle;
     infectedList = other.infectedList;
     g = other.g;
     treeType = other.getTreeType();
@@ -64,6 +66,7 @@ Session::Session(Session &&other) {
 //move assignment operator
 const Session &Session::operator=(Session &&other) {
     clear();
+    cycle = other.cycle;
     infectedList = other.infectedList;
     g = other.g;
     treeType = other.getTreeType();
@@ -134,6 +137,10 @@ void Session::clear() {
 
 void Session::addAgent(Agent *agent) {
     agents.push_back(agent);
+}
+
+int Session::getCycle() {
+    return cycle;
 }
 
 
