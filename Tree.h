@@ -56,6 +56,8 @@ public:
 
     virtual int traceTree();
     virtual MaxRankTree* clone() const;
+private:
+    std::pair<int,int> trace();
 };
 
 class RootTree: public Tree{

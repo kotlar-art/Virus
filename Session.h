@@ -37,6 +37,7 @@ public:
     void virusHasSpread();
     int getCycle() const;
     bool isInfectedListEmpty();
+    int getCycle();
 
 private:
     vector<int> infectedList;
