@@ -28,6 +28,8 @@ public:
     void addChild(Tree* child);
     int getNode() const;
     static Tree* BFS(const Session& session, int rootLabel);
+    //debugging
+    void print();
 private:
     int node;
     std::vector<Tree*> children;

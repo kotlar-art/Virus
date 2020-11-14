@@ -35,16 +35,15 @@ ContactTracer * ContactTracer::clone() const {
     return new ContactTracer();
 }
 void ContactTracer::act(Session &session) {
-    if(session.getListSize() == 0){
-        return;
-    }
     TreeType treeType = session.getTreeType();
     if (!session.isInfectedListEmpty()) {
         int a = session.dequeueInfected();
         Tree *infectedTree = Tree::BFS(session, a);
+        infectedTree->print(); // debugging
         int toDisconnect = infectedTree->traceTree();
         Graph newGraph(session.getGraph());
         newGraph.amputate(toDisconnect);
+        delete infectedTree;
         session.setGraph(newGraph);
     }
 }

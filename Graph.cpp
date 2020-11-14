@@ -51,3 +51,23 @@ void Graph::amputate(int toAmputate) {
         if (edges[toAmputate][i]==1) remove_edge(toAmputate, (int)i);
     }
 }
+
+void Graph::print() const {
+    cout << "graph edges are: {";
+    for (unsigned int i = 0; i<edges.size(); i++){
+        cout << "{";
+        for (unsigned int j = 0; j<edges[i].size(); j++){
+            cout << edges[i][j] << ',';
+        }
+        cout << "}";
+    }
+    cout << "}" << endl;
+    cout << "infected nodes are:" << endl;
+    cout << "{";
+    for (int i = 0; i < infected_list.size(); ++i) {
+        if(infected_list[i] == 1){
+            cout << i << ", ";
+        }
+    }
+    cout << '}';
+}

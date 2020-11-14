@@ -2,10 +2,14 @@
 #include "Session.h"
 #include <fstream>
 #include <iostream>
+#include "Agent.h"
 using json = nlohmann::json;
 using namespace std;
+
+//debugging counstructor
+Session::Session(Graph g, vector<Agent*> v, TreeType t) : g(g), agents(v), treeType(t), infectedList(), cycleCounter(0), virusSpread(true){}
 //constructor
-Session::Session(const std::string& path):g(), treeType(Root),infectedList(),agents(), cycle(0){
+Session::Session(const std::string& path):g(), treeType(Root),infectedList(),agents(), cycleCounter(0), virusSpread(true){
     ifstream i("path");
     json j;
     j << i;
@@ -37,13 +41,13 @@ Session::Session(const Session& session):g(session.getGraph()), treeType(session
 //destructor
 Session::~Session() {clear();}
 
-//copy assignment operator
-const Session &Session::operator=(const Session &other) {
+//assignment operator
+const Session& Session::operator=(const Session &other) {
     if(this == &other){
         return *this;
     }
     clear();
-    cycle = other.cycle;
+    cycleCounter = other.cycleCounter;
     infectedList = other.infectedList;
     g = other.g;
     treeType = other.getTreeType();
@@ -57,7 +61,7 @@ const Session &Session::operator=(const Session &other) {
 //move constructor
 
 Session::Session(Session &&other) {
-    cycle = other.cycle;
+    cycleCounter = other.cycleCounter;
     infectedList = other.infectedList;
     g = other.g;
     treeType = other.getTreeType();
@@ -70,7 +74,7 @@ Session::Session(Session &&other) {
 //move assignment operator
 const Session &Session::operator=(Session &&other) {
     clear();
-    cycle = other.cycle;
+    cycleCounter = other.cycleCounter;
     infectedList = other.infectedList;
     g = other.g;
     treeType = other.getTreeType();
@@ -99,7 +103,6 @@ void Session::virusHasSpread() {
 }
 
 void Session::simulate() {
-    virusSpread = true;
     cycleCounter = 0;
     while(virusSpread){
         virusSpread = false;
@@ -109,6 +112,8 @@ void Session::simulate() {
         }
         cycleCounter++;
     }
+    //debugging stuff
+    getGraph().print();
 }
 
 
@@ -148,6 +153,8 @@ void Session::addAgent(Agent *agent) {
 bool Session::isInfectedListEmpty() {
     return infectedList.empty();
 }
+
+
 
 
 

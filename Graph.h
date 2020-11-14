@@ -19,6 +19,8 @@ public:
     vector<bool> getList();
     int getGraphSize() const;
     void amputate(int toAmputate);
+    //debugging stuff
+    void print() const;
 private:
     std::vector<std::vector<int>> edges;
     std::vector<bool> infected_list;

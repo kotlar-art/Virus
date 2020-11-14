@@ -16,10 +16,12 @@ enum TreeType{
 
 class Session{
 public:
+    Session(Graph g, vector<Agent*> v, TreeType t);
     Session(const std::string& path);
     //rule of 5
     Session(const Session& session);
     virtual ~Session();
+
     const Session& operator=(const Session &other);
     Session(Session&& other);
     const Session& operator=(Session&& other);
@@ -35,9 +37,8 @@ public:
     int getListSize() const;
     TreeType getTreeType() const;
     void virusHasSpread();
-    int getCycle() const;
     bool isInfectedListEmpty();
-    int getCycle();
+    int getCycle() const;
 
 private:
     vector<int> infectedList;

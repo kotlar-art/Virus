@@ -3,6 +3,8 @@
 #include "Tree.h"
 #include "Graph.h"
 #include <vector>
+#include "iostream"
+
 using namespace std;
 
 //constructor
@@ -55,6 +57,7 @@ Tree * Tree::BFS(const Session &session, int rootLabel) {
     return t;
 }
 
+
 void Tree::BFS(const Session &session, queue<Tree*>& q, vector<bool>& visited) {
 
     int TreeRoot = q.front()->getNode();
@@ -69,6 +72,16 @@ void Tree::BFS(const Session &session, queue<Tree*>& q, vector<bool>& visited) {
     q.pop();
     if(!q.empty()) q.front()->BFS(session, q, visited);
 
+}
+//debugging
+void Tree::print() {
+    cout << getNode();
+    cout << "{";
+    for (int i = 0; i < getChildren().size(); ++i) {
+        (getChildren()[i])->print();
+        cout << ", ";
+    }
+    cout << '}';
 }
 
 
@@ -86,7 +99,7 @@ Tree * Tree::createTree(const Session &session, int rootLabel) {
         return RT;
     }
     if(t==Cycle){
-        CycleTree *CT = new CycleTree(rootLabel, );
+        CycleTree *CT = new CycleTree(rootLabel, session.getCycle());
         return CT;
     }
     else{

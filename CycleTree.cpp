@@ -1,8 +1,8 @@
 //
 // Created by spl211 on 10/11/2020.
 //
-
 #include "Tree.h"
+using namespace std;
 //constructor
 CycleTree::CycleTree(int rootLabel, int currCycle) : Tree(rootLabel), currCycle(currCycle){};
 
@@ -30,11 +30,13 @@ int CycleTree::traceTree() {
     int i = currCycle;
     int output = getNode();
     CycleTree *tree(this);
-    while(i > 0){
-     CycleTree *tree((CycleTree *)(tree->getChildren()[0]));
+    while(i > 0 && getChildren().size() > 0){
+     tree = (CycleTree *)(tree->getChildren()[0]);
      output = tree->getNode();
      i--;
     }
     delete tree;
     return output;
 }
+
+
